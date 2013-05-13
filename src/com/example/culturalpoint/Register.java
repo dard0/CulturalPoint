@@ -30,17 +30,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class Register extends Activity {
     /** Called when the activity is first created. */
     
     EditText user;
     EditText pass;
-    Button blogin;
-    Button botonloco;
-    TextView registrar;
+    EditText mail;
+    Button badd;
     Httppostaux post;
     String IP_Server="213.162.209.174";//IP DE NUESTRO PC
-    String URL_connect="http://cultural.neotecnosl.es/acces.php";//ruta en donde estan nuestros archivos
+    String URL_connect="http://cultural.neotecnosl.es/adduser.php";//ruta en donde estan nuestros archivos
   
     boolean result_back;
     private ProgressDialog pDialog;
@@ -48,35 +47,33 @@ public class MainActivity extends Activity {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.register);
 		
-		RelativeLayout linearLayoutTotal = (RelativeLayout)findViewById(R.id.LayoutGrande);
-		linearLayoutTotal.setBackgroundColor(Color.BLACK);
-
         post=new Httppostaux();
         
-        user= (EditText) findViewById(R.id.loginText);
-        pass= (EditText) findViewById(R.id.passText);
-        blogin= (Button) findViewById(R.id.btEntrar);
-        registrar=(TextView) findViewById(R.id.link_to_register);
-        botonloco=(Button) findViewById(R.id.botonloco);
+        user= (EditText) findViewById(R.id.etUser);
+        pass= (EditText) findViewById(R.id.etPass);
+        mail= (EditText) findViewById(R.id.etMail);
+        badd= (Button) findViewById(R.id.btEntrar);
         
                     
         //Login button action
-        blogin.setOnClickListener(new View.OnClickListener(){
+        badd.setOnClickListener(new View.OnClickListener(){
        
         	public void onClick(View view){
         		 
         		//Extreamos datos de los EditText
         		String usuario=user.getText().toString();
         		String passw=pass.getText().toString();
+        		String email=mail.getText().toString();
+        		
         		
         		//verificamos si estan en blanco
-        		if( checklogindata( usuario , passw )==true){
+        		if( checkregdata( usuario , passw , email )==true){
 
         			//si pasamos esa validacion ejecutamos el asynctask pasando el usuario y clave como parametros
         			
-        		new asynclogin().execute(usuario,passw);        		               
+        		new asynclogin().execute(usuario,passw,email);        		               
         			      		
         		
         		}else{
@@ -87,27 +84,8 @@ public class MainActivity extends Activity {
         	}
         													});
         
-        registrar.setOnClickListener(new View.OnClickListener(){
-            
-        	public void onClick(View view){
-        		
-        		//Abre el navegador al formulario adduser.html
-        		String url = "http://cultural.neotecnosl.es/index.html";
-        		Intent i = new Intent(Intent.ACTION_VIEW);
-        		i.setData(Uri.parse(url));
-        		startActivity(i);        		
-        								}        	
-        														});
-        
-        
-        
     }
     
-    
-    public void lanzar(View view){
-    	Intent intent = new Intent(this, Register.class);
-    	startActivity(intent);
-    }
     //vibra y muestra un Toast
     public void err_login(){
     	Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -118,7 +96,7 @@ public class MainActivity extends Activity {
     
     
     /*Valida el estado del logueo solamente necesita como parametros el usuario y passw*/
-    public boolean loginstatus(String username ,String password ) {
+    public boolean loginstatus(String username ,String password, String mail ) {
     	int logstatus=-1;
     	
     	/*Creamos un ArrayList del tipo nombre valor para agregar los datos recibidos por los parametros anteriores
@@ -127,6 +105,8 @@ public class MainActivity extends Activity {
      		
 		    		postparameters2send.add(new BasicNameValuePair("usuario",username));
 		    		postparameters2send.add(new BasicNameValuePair("password",password));
+		    		postparameters2send.add(new BasicNameValuePair("email",mail));
+		    		
 
 		   //realizamos una peticion y como respuesta obtenes un array JSON
       		JSONArray jdata=post.getserverdata(postparameters2send, URL_connect);
@@ -170,9 +150,9 @@ public class MainActivity extends Activity {
     
           
     //validamos si no hay ningun campo en blanco
-    public boolean checklogindata(String username ,String password ){
+    public boolean checkregdata(String username ,String password, String emilio ){
     	
-    if 	(username.equals("") || password.equals("")){
+    if 	(username.equals("") || password.equals("") || emilio.equals("")){
     	Log.e("Login ui", "checklogindata user or pass error");
     return false;
     
@@ -193,10 +173,10 @@ public class MainActivity extends Activity {
     
     class asynclogin extends AsyncTask< String, String, String > {
     	 
-    	String user,pass;
+    	String user,pass,mail;
         protected void onPreExecute() {
         	//para el progress dialog
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(Register.this);
             pDialog.setMessage("Autenticando....");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -207,9 +187,10 @@ public class MainActivity extends Activity {
 			//obtnemos usr y pass
 			user=params[0];
 			pass=params[1];
+			mail=params[2];
             
 			//enviamos y recibimos y analizamos los datos en segundo plano.
-    		if (loginstatus(user,pass)==true){    		    		
+    		if (loginstatus(user,pass,mail)==true){    		    		
     			return "ok"; //login valido
     		}else{    		
     			return "err"; //login invalido     	          	  
@@ -227,7 +208,7 @@ public class MainActivity extends Activity {
            
            if (result.equals("ok")){
 
-				Intent i=new Intent(MainActivity.this, HiScreen.class);
+				Intent i=new Intent(Register.this, HiScreen.class);
 				i.putExtra("user",user);
 				startActivity(i); 
 

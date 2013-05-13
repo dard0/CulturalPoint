@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LayoutGrande"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -9,6 +10,7 @@
     tools:context=".MainActivity" >
 
     <LinearLayout
+        android:id="@+id/LayoutGeneral"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
@@ -17,49 +19,102 @@
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/LayoutLogo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.01"
+            android:layout_weight="0.00"
             android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/Pass"
+                android:layout_width="match_parent"
+                android:layout_height="124dp"
+                android:src="@drawable/cultural" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Espacio"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/link_to_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/cultural" />
+                android:layout_weight="0.00"
+                android:text="TextView" />
 
         </LinearLayout>
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.06" >
+            android:gravity="center|fill" >
 
-            <TableRow
-                android:id="@+id/tableRow1"
+            <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </TableRow>
+                android:layout_height="wrap_content"
+                android:src="@drawable/login" />
 
-            <TableRow
-                android:id="@+id/tableRow2"
+            <EditText
+                android:id="@+id/loginText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </TableRow>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:singleLine="true" >
 
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </TableRow>
+                <requestFocus />
+            </EditText>
 
-            <TableRow
-                android:id="@+id/tableRow4"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|fill" >
+
+            <ImageView
+                android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </TableRow>
-        </TableLayout>
+                android:layout_height="wrap_content"
+                android:src="@drawable/pass" />
+
+            <EditText
+                android:id="@+id/passText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LayoutPie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/btEntrar"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Enviar" />
+
+            <Button
+                android:id="@+id/botonloco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrar"
+                android:onClick="lanzar" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
